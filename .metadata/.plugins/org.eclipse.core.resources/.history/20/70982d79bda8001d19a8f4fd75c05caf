@@ -1,0 +1,58 @@
+package connected;
+
+import java.awt.BorderLayout;
+import javax.swing.*;
+import java.awt.FlowLayout;
+
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+
+public class EditForm extends JDialog {
+
+	private JPanel contentPane;
+	public static EditForm current;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		try {
+			EditForm dialog = new EditForm();
+			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+			dialog.setVisible(true);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * Create the dialog.
+	 */
+public EditForm() {
+		
+		setResizable(false);
+		setBounds(100, 100, 450, 300);
+		
+		setModal(true);
+		setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
+		
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5,5,5,5));
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(0,0,716,102);
+		contentPane.add(scrollPane);
+		
+		JButton btnButton = new JButton("OK");
+		btnButton.setBounds(439,113,89,23);
+		contentPane.add(btnButton);
+		
+		JButton btnButton2 = new JButton("Cancel");
+		btnButton2.setBounds(577,113,89,23);
+		contentPane.add(btnButton2);
+	}
+}

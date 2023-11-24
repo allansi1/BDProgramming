@@ -1,0 +1,84 @@
+package TotalIdDeptsTrimestre;
+
+import java.sql.*;
+import java.util.Calendar;
+
+public class TotalizationCalculatorTrimestre {
+	 private static final String JDBC_URL = "jdbc:mysql://23.235.197.135:3306/instit43_GrandeOurse_DB_test?serverTimezone=UTC";
+	    private static final String JDBC_USER = "instit43_GOurse_DB_adm";
+	    private static final String JDBC_PASSWORD = "LGO@ig23";
+
+	    public static void main(String[] args) {
+	        try (Connection connection = DriverManager.getConnection(JDBC_URL, JDBC_USER, JDBC_PASSWORD)) {
+	            TotalizationCalculatorTrimestre calculator = new TotalizationCalculatorTrimestre();
+	            calculator.calculateTotalizations(connection);
+	            System.out.println("Totalizations completed!");
+	        } catch (SQLException ex) {
+	            ex.printStackTrace();
+	            System.err.println("Error to connect to BD.");
+	        }
+	    }
+
+	    public void calculateTotalizations(Connection connection) throws SQLException {
+	        String selectPeriodeQuery = "SELECT * FROM Periode WHERE TypePeriode = 'Trimestriel' AND Trimestre IS NOT NULL";
+	        try (Statement stmt = connection.createStatement();
+	             ResultSet periodeResultSet = stmt.executeQuery(selectPeriodeQuery)) {
+	             
+	            while (periodeResultSet.next()) {
+	                int idPeriode = periodeResultSet.getInt("IdPeriode");
+	                int trimestre = periodeResultSet.getInt("Trimestre");
+	                int annee = periodeResultSet.getInt("Année");
+
+	                Calendar cal = Calendar.getInstance();
+	                cal.set(Calendar.YEAR, annee);
+
+	                
+	                switch (trimestre) {
+	                    case 1:
+	                        cal.set(Calendar.MONTH, Calendar.JANUARY);
+	                        break;
+	                    case 2:
+	                        cal.set(Calendar.MONTH, Calendar.APRIL);
+	                        break;
+	                    case 3:
+	                        cal.set(Calendar.MONTH, Calendar.JULY);
+	                        break;
+	                    case 4:
+	                        cal.set(Calendar.MONTH, Calendar.OCTOBER);
+	                        break;
+	                }
+	                
+	                cal.set(Calendar.DAY_OF_MONTH, 1);
+	                Date startDate = new Date(cal.getTimeInMillis());
+
+	                // Avançando para o último mês do trimestre
+	                cal.add(Calendar.MONTH, 2);
+	                cal.set(Calendar.DAY_OF_MONTH, cal.getActualMaximum(Calendar.DAY_OF_MONTH));
+	                Date endDate = new Date(cal.getTimeInMillis());
+
+	                // Calculando a soma por departamento
+	                String sumByDeptQuery = "SELECT ID_DEPT, SUM(MONTANT) AS Total_Montant FROM DailyEntry WHERE Date >= ? AND Date <= ? GROUP BY ID_DEPT";
+	                try (PreparedStatement sumStmt = connection.prepareStatement(sumByDeptQuery)) {
+	                    sumStmt.setDate(1, startDate);
+	                    sumStmt.setDate(2, endDate);
+	                    try (ResultSet sumRS = sumStmt.executeQuery()) {
+	                        while (sumRS.next()) {
+	                            int deptId = sumRS.getInt("ID_DEPT");
+	                            double totalAmount = sumRS.getDouble("Total_Montant");
+	                            
+	                            // Inserir o valor total na tabela 'TotalDansLaPeriode'
+	                            String insertQuery = "INSERT INTO TotalDansLaPeriode (TypedeLigne, IdPeriode, Totalization) VALUES (?, ?, ?)";
+	                            try (PreparedStatement insertStmt = connection.prepareStatement(insertQuery)) {	                                
+	                                insertStmt.setInt(1, deptId);
+	                                insertStmt.setInt(2, idPeriode);
+	                                insertStmt.setDouble(3, totalAmount);
+	                                insertStmt.executeUpdate();
+	                            }
+	                        }
+	                    }
+	                }
+	            }
+	        }
+	    }	
+
+}

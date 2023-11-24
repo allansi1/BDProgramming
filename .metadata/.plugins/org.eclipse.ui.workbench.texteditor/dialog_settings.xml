@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section name="Workbench">
+	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
+		<item key="selection" value="&#x0D;&#x0A;                    ResultSet totalsResultSet = pStmt.executeQuery();"/>
+		<item key="wrap" value="true"/>
+		<item key="casesensitive" value="false"/>
+		<item key="wholeword" value="false"/>
+		<item key="incremental" value="false"/>
+		<item key="isRegEx" value="false"/>
+		<list key="findhistory">
+			<item value="ID_Periode"/>
+			<item value="CSV"/>
+			<item value="host"/>
+			<item value="Data"/>
+			<item value="delete"/>
+			<item value="INSERT INTO inscription"/>
+			<item value="static boolean isValidCId(Object cId) {"/>
+			<item value="update"/>
+			<item value="static boolean isValidEId"/>
+			<item value="private boolean myValidate"/>
+			<item value="private boolean myValidate()"/>
+			<item value="myValidat"/>
+			<item value="isVali"/>
+			<item value="boolean myValidate"/>
+			<item value="isNon"/>
+		</list>
+		<list key="replacehistory">
+			<item value="C_Id"/>
+			<item value="C_nom"/>
+			<item value="C_ID"/>
+		</list>
+	</section>
+	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">
+		<item key="DIALOG_X_ORIGIN" value="384"/>
+		<item key="DIALOG_Y_ORIGIN" value="325"/>
+		<item key="DIALOG_WIDTH" value="411"/>
+		<item key="DIALOG_HEIGHT" value="454"/>
+		<item key="DIALOG_FONT_NAME" value="1|Segoe UI|9.0|0|WINDOWS|1|-15|0|0|0|400|0|0|0|1|0|0|0|0|Segoe UI"/>
+	</section>
+</section>

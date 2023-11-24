@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Copy package &apos;connected&apos; to &apos;EtudProg/src&apos;&#x0D;&#x0A;- Original project: &apos;DB1EmpGUIW2023IG&apos;&#x0D;&#x0A;- Destination element: &apos;EtudProg/src&apos;&#x0D;&#x0A;- Original element: &apos;DB1EmpGUIW2023IG/src/connected&apos;" description="Copy package" destination="=EtudProg/src" element1="/src&lt;connected" flags="589830" fragments="1" id="org.eclipse.jdt.ui.copy" policy="org.eclipse.jdt.ui.copyPackages" stamp="1681400579443" version="1.0"/>
+</session>

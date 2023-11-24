@@ -1,0 +1,47 @@
+package dailyTotals;
+
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+
+public class DailyTotals {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		String jdbcUrl = "jdbc:mysql://23.235.197.135:3306/instit43_GrandeOurse_DB_test?serverTimezone=UTC";
+        String user = "instit43_GOurse_DB_adm";
+        String password = "LGO@ig23";
+
+        String csvFile = "test.csv";
+      
+        try (BufferedReader w = new BufferedReader(new FileReader(csvFile));
+             Connection connection = DriverManager.getConnection(jdbcUrl, user, password)) {
+
+            String insertQuery = "INSERT INTO DailyTotals (Date, PO, TPS, TVQ, Total_Des_Departements, Rabais) VALUES (?, ?, ?, ?, ?, ?)";
+            PreparedStatement preparedStatement = connection.prepareStatement(insertQuery);
+
+            String line;
+            w.readLine();
+            while ((line = w.readLine()) != null) {
+                String[] values = line.split(";");
+                
+                preparedStatement.setString(1, values[0]); // Date
+                preparedStatement.setDouble(2, Double.parseDouble(values[1])); // PO
+                preparedStatement.setDouble(3, Double.parseDouble(values[2])); // TPS
+                preparedStatement.setDouble(4, Double.parseDouble(values[3])); // TVQ
+                preparedStatement.setDouble(4, Double.parseDouble(values[4])); // Total_Des_Departements
+                preparedStatement.setDouble(4, Double.parseDouble(values[5])); // Rabais
+                preparedStatement.executeUpdate();
+            }            
+
+            System.out.println("Dados inseridos com sucesso!");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+	}
+
+}
